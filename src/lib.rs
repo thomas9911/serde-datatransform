@@ -18,7 +18,6 @@ pub use types::yaml::{yaml_to_map, map_to_yaml};
 
 #[cfg(test)]
 mod tests {
-    // use crate::{cbor_hex_to_map, json_to_map, toml_to_map, yaml_to_map, SerdeTransformError};
     use crate::*;
 
     fn var_data(vec_list: Vec<serde_value::Value>) -> serde_value::Value {
@@ -57,14 +56,6 @@ mod tests {
 
     #[test]
     fn json_to_map_test() {
-        // let expected = serde_json::json!({
-        //     "1": [1,2,3,4],
-        //     "2": "oke",
-        //     "3": {
-        //         "nested": "item"
-        //     }
-        // });
-
         let expected = data();
 
         let str_input = "{\"1\":[1,2,3,4],\"2\":\"oke\",\"3\":{\"nested\":\"item\"}}";
@@ -74,14 +65,6 @@ mod tests {
 
     #[test]
     fn map_to_json_test() {
-        // let value_input = serde_json::json!({
-        //     "1": [1,2,3,4],
-        //     "2": "oke",
-        //     "3": {
-        //         "nested": "item"
-        //     }
-        // });
-
         let value_input = data();
 
         let expected = String::from("{\"1\":[1,2,3,4],\"2\":\"oke\",\"3\":{\"nested\":\"item\"}}");
@@ -91,13 +74,6 @@ mod tests {
 
     #[test]
     fn toml_to_map_test() {
-        // let expected = toml::toml!(
-        // 1 = [1,2,3,4]
-        // 2 = "oke"
-        // [3]
-        // nested = "item"
-        //     );
-
         let str_input = r#"
                     1 = [1,2,3,4]
                     2 = "oke"
@@ -119,13 +95,6 @@ mod tests {
 
     #[test]
     fn map_to_toml_test() {
-        // let value_input = toml::toml!(
-        // 1 = [1,2,3,4]
-        // 2 = "oke"
-        // [3]
-        // nested = "item"
-        //     );
-
         let value_input = data();
 
         let expected = String::from(
@@ -142,29 +111,6 @@ nested = "item"
 
     #[test]
     fn yaml_to_map_test() {
-        // use serde_yaml::Value;
-
-        // let mut map = serde_yaml::Mapping::new();
-        // let mut list = serde_yaml::Sequence::new();
-        // list.push(Value::Number(serde_yaml::Number::from(1)));
-        // list.push(Value::Number(serde_yaml::Number::from(2)));
-        // list.push(Value::Number(serde_yaml::Number::from(3)));
-        // list.push(Value::Number(serde_yaml::Number::from(4)));
-        // let mut nested_map = serde_yaml::Mapping::new();
-        // nested_map.insert(
-        //     Value::String(String::from("nested")),
-        //     Value::String(String::from("item")),
-        // );
-
-        // map.insert(Value::String(String::from("1")), Value::Sequence(list));
-        // map.insert(
-        //     Value::String(String::from("2")),
-        //     Value::String(String::from("oke")),
-        // );
-        // map.insert(Value::String(String::from("3")), Value::Mapping(nested_map));
-
-        // let expected = Value::Mapping(map);
-
         let expected = data();
 
         let str_input = r#"
@@ -221,32 +167,6 @@ nested = "item"
         //          6E6573746564 # "nested"
         //       64              # text(4)
         //          6974656D     # "item"
-        // use serde_cbor::Value;
-        // use std::collections::BTreeMap;
-
-        // let mut map = BTreeMap::new();
-
-        // let list = vec![
-        //     Value::from(1),
-        //     Value::from(2),
-        //     Value::from(3),
-        //     Value::from(4),
-        // ];
-
-        // let mut nested_map = BTreeMap::new();
-        // nested_map.insert(
-        //     Value::Text(String::from("nested")),
-        //     Value::Text(String::from("item")),
-        // );
-
-        // map.insert(Value::Text(String::from("1")), Value::Array(list));
-        // map.insert(
-        //     Value::Text(String::from("2")),
-        //     Value::Text(String::from("oke")),
-        // );
-        // map.insert(Value::Text(String::from("3")), Value::Map(nested_map));
-
-        // let expected = Value::Map(map);
 
         let list = vec![
             serde_value::Value::U8(1),

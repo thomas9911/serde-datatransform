@@ -1,7 +1,3 @@
-// pub fn yaml_to_map(input: &str) -> Result<serde_yaml::Value, crate::SerdeTransformError> {
-//     let x: serde_yaml::Value = serde_yaml::from_str(input)?;
-//     Ok(x)
-// }
 
 pub fn yaml_to_map(input: &str) -> Result<serde_value::Value, crate::SerdeTransformError> {
     let x: serde_value::Value = serde_yaml::from_str(input)?;
