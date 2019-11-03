@@ -1,4 +1,3 @@
-
 pub fn toml_to_map(input: &str) -> Result<serde_value::Value, crate::SerdeTransformError> {
     let x: serde_value::Value = toml_crate::from_str(input)?;
     Ok(x)

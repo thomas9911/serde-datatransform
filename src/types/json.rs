@@ -1,4 +1,3 @@
-
 pub fn json_to_map(input: &str) -> Result<serde_value::Value, crate::SerdeTransformError> {
     let x: serde_value::Value = serde_json::from_str(input)?;
     Ok(x)

@@ -14,7 +14,7 @@ pub use error::SerdeTransformError;
 pub use types::cbor::{cbor_hex_to_map, map_to_cbor_hex};
 pub use types::json::{json_to_map, map_to_json};
 pub use types::toml::{map_to_toml, toml_to_map};
-pub use types::yaml::{yaml_to_map, map_to_yaml};
+pub use types::yaml::{map_to_yaml, yaml_to_map};
 
 #[cfg(test)]
 mod tests {
@@ -128,9 +128,8 @@ nested = "item"
         assert_eq!(expected, yaml_to_map(str_input).unwrap())
     }
 
-
     #[test]
-    fn map_to_yaml_test(){
+    fn map_to_yaml_test() {
         let value_input = data();
 
         let expected = r#"---
@@ -183,12 +182,11 @@ nested = "item"
     }
 
     #[test]
-    fn map_to_cbor_hex_test(){
+    fn map_to_cbor_hex_test() {
         let value_input = data();
 
         let expected = "A3613184010203046132636F6B656133A1666E6573746564646974656D";
         assert_eq!(expected, map_to_cbor_hex(&value_input).unwrap())
-
     }
 
     #[test]
