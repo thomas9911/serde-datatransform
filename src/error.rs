@@ -28,6 +28,14 @@ make_error!(serde_yaml::Error, Yaml);
 
 impl std::fmt::Display for SerdeTransformError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self)
+        write!(f, "{:?}", self)
     }
+}
+
+
+
+#[test]
+fn kaas(){
+    let err = SerdeTransformError::Cbor(String::from("this goes wrong"));
+    assert_eq!(String::from("Cbor(\"this goes wrong\")"), format!("{}", err));
 }
