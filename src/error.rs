@@ -7,6 +7,7 @@ pub enum SerdeTransformError {
     Toml(String),
     Yaml(String),
     Hex(String),
+    MsgPack(String),
 }
 
 macro_rules! make_error {
@@ -25,6 +26,8 @@ make_error!(serde_json::Error, Json);
 make_error!(toml_crate::ser::Error, Toml);
 make_error!(toml_crate::de::Error, Toml);
 make_error!(serde_yaml::Error, Yaml);
+make_error!(rmp_serde::encode::Error, MsgPack);
+make_error!(rmp_serde::decode::Error, MsgPack);
 
 impl std::fmt::Display for SerdeTransformError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

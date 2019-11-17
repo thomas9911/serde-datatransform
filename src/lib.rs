@@ -5,6 +5,7 @@ extern crate serde_cbor;
 extern crate serde_json;
 extern crate serde_yaml;
 extern crate toml as toml_crate;
+extern crate rmp_serde;
 
 mod types;
 
@@ -13,6 +14,7 @@ mod error;
 pub use error::SerdeTransformError;
 pub use types::cbor::{cbor_hex_to_map, map_to_cbor_hex};
 pub use types::json::{json_to_map, map_to_json};
+pub use types::msgpack::{msgpack_hex_to_map, map_to_msgpack_hex};
 pub use types::toml::{map_to_toml, toml_to_map};
 pub use types::yaml::{map_to_yaml, yaml_to_map};
 
@@ -187,6 +189,29 @@ nested = "item"
 
         let expected = "A3613184010203046132636F6B656133A1666E6573746564646974656D";
         assert_eq!(expected, map_to_cbor_hex(&value_input).unwrap())
+    }
+
+    #[test]
+    fn msgpack_hex_to_map_test() {
+        let list = vec![
+            serde_value::Value::U8(1),
+            serde_value::Value::U8(2),
+            serde_value::Value::U8(3),
+            serde_value::Value::U8(4),
+        ];
+
+        let expected = var_data(list);
+
+        let str_input = "83A1319401020304A132A36F6B65A13381A66E6573746564A46974656D";
+        assert_eq!(expected, msgpack_hex_to_map(str_input).unwrap())
+    }
+
+    #[test]
+    fn map_to_msgpack_hex_test() {
+        let value_input = data();
+
+        let expected = "83A1319401020304A132A36F6B65A13381A66E6573746564A46974656D";
+        assert_eq!(expected, map_to_msgpack_hex(&value_input).unwrap())
     }
 
     #[test]
