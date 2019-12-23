@@ -8,6 +8,7 @@ pub enum SerdeTransformError {
     Toml(String),
     Yaml(String),
     Hex(String),
+    Base64(String),
     MsgPack(String),
 }
 
@@ -22,6 +23,7 @@ macro_rules! make_error {
 }
 
 make_error!(hex::FromHexError, Hex);
+make_error!(base64::DecodeError, Base64);
 make_error!(serde_cbor::Error, Cbor);
 make_error!(serde_json::Error, Json);
 make_error!(json5::Error, Json5);
