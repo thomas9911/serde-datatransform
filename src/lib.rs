@@ -1,11 +1,12 @@
 extern crate serde;
 
 extern crate hex;
+extern crate json5;
+extern crate rmp_serde;
 extern crate serde_cbor;
 extern crate serde_json;
 extern crate serde_yaml;
 extern crate toml as toml_crate;
-extern crate rmp_serde;
 
 mod types;
 
@@ -14,7 +15,8 @@ mod error;
 pub use error::SerdeTransformError;
 pub use types::cbor::{cbor_hex_to_map, map_to_cbor_hex};
 pub use types::json::{json_to_map, map_to_json};
-pub use types::msgpack::{msgpack_hex_to_map, map_to_msgpack_hex};
+pub use types::json5::{json5_to_map, map_to_json5};
+pub use types::msgpack::{map_to_msgpack_hex, msgpack_hex_to_map};
 pub use types::toml::{map_to_toml, toml_to_map};
 pub use types::yaml::{map_to_yaml, yaml_to_map};
 
@@ -72,6 +74,31 @@ mod tests {
         let expected = String::from("{\"1\":[1,2,3,4],\"2\":\"oke\",\"3\":{\"nested\":\"item\"}}");
 
         assert_eq!(expected, map_to_json(&value_input).unwrap())
+    }
+
+    #[test]
+    fn json5_to_map_test() {
+        let list = vec![
+            serde_value::Value::I64(1),
+            serde_value::Value::I64(-2),
+            serde_value::Value::I64(3),
+            serde_value::Value::I64(4),
+        ];
+
+        let expected = var_data(list);
+
+        let str_input = "{\"1\":[1,-2,3,+4,],\"2\":\"oke\",\"3\":{nested: 'item'}}";
+
+        assert_eq!(expected, json5_to_map(str_input).unwrap())
+    }
+
+    #[test]
+    fn map_to_json5_test() {
+        let value_input = data();
+
+        let expected = String::from("{\"1\":[1,2,3,4],\"2\":\"oke\",\"3\":{\"nested\":\"item\"}}");
+
+        assert_eq!(expected, map_to_json5(&value_input).unwrap())
     }
 
     #[test]
@@ -221,6 +248,20 @@ nested = "item"
                 "expected ident at line 1 column 2".to_string()
             )),
             json_to_map("testing")
+        );
+    }
+
+    #[test]
+    fn json5_to_map_error() {
+        assert_eq!(
+            Err(
+                SerdeTransformError::Json5(
+                    String::from(
+                        " --> 1:1\n  |\n1 | testing\n  | ^---\n  |\n  = expected array, boolean, null, number, object, or string"
+                    )
+                )
+            ),
+            json5_to_map("testing")
         );
     }
 

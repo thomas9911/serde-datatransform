@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub enum SerdeTransformError {
     Cbor(String),
     Json(String),
+    Json5(String),
     Toml(String),
     Yaml(String),
     Hex(String),
@@ -23,6 +24,7 @@ macro_rules! make_error {
 make_error!(hex::FromHexError, Hex);
 make_error!(serde_cbor::Error, Cbor);
 make_error!(serde_json::Error, Json);
+make_error!(json5::Error, Json5);
 make_error!(toml_crate::ser::Error, Toml);
 make_error!(toml_crate::de::Error, Toml);
 make_error!(serde_yaml::Error, Yaml);
@@ -35,10 +37,11 @@ impl std::fmt::Display for SerdeTransformError {
     }
 }
 
-
-
 #[test]
-fn kaas(){
+fn kaas() {
     let err = SerdeTransformError::Cbor(String::from("this goes wrong"));
-    assert_eq!(String::from("Cbor(\"this goes wrong\")"), format!("{}", err));
+    assert_eq!(
+        String::from("Cbor(\"this goes wrong\")"),
+        format!("{}", err)
+    );
 }

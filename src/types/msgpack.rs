@@ -4,7 +4,9 @@ pub fn msgpack_hex_to_map(input: &str) -> Result<serde_value::Value, crate::Serd
     Ok(x)
 }
 
-pub fn map_to_msgpack_hex(input: &serde_value::Value) -> Result<String, crate::SerdeTransformError> {
+pub fn map_to_msgpack_hex(
+    input: &serde_value::Value,
+) -> Result<String, crate::SerdeTransformError> {
     let x = rmp_serde::to_vec(input)?;
     Ok(hex::encode_upper(x))
 }
