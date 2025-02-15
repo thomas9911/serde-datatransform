@@ -139,15 +139,15 @@ nested = "item"
     fn map_to_yaml_test() {
         let value_input = data();
 
-        let expected = r#"---
-"1":
-  - 1
-  - 2
-  - 3
-  - 4
-"2": oke
-"3":
-  nested: item"#;
+        let expected = r#"'1':
+- 1
+- 2
+- 3
+- 4
+'2': oke
+'3':
+  nested: item
+"#;
 
         assert_eq!(expected, map_to_yaml(&value_input).unwrap())
     }
@@ -290,7 +290,7 @@ nested = "item"
         assert_eq!(expected, map_to_msgpack_base64(&value_input).unwrap())
     }
 
-        #[test]
+    #[test]
     fn msgpack_base64_urlsafe_to_map_test() {
         let list = vec![
             serde_value::Value::U8(1),
@@ -310,7 +310,10 @@ nested = "item"
         let value_input = data();
 
         let expected = "g6ExlAECAwShMqNva2WhM4GmbmVzdGVkpGl0ZW0=";
-        assert_eq!(expected, map_to_msgpack_base64_urlsafe(&value_input).unwrap())
+        assert_eq!(
+            expected,
+            map_to_msgpack_base64_urlsafe(&value_input).unwrap()
+        )
     }
 
     #[test]
@@ -341,7 +344,8 @@ nested = "item"
     fn yaml_to_map_error() {
         assert_eq!(
             Err(SerdeTransformError::Yaml(
-                "\"-\" is only valid inside a block at line 1 column 2".to_string()
+                "did not find expected node content at line 1 column 2, while parsing a flow node"
+                    .to_string()
             )),
             yaml_to_map("{- testing}")
         );
